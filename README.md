@@ -9,7 +9,7 @@ Compatível com qualquer banco de dados SQL, incluindo, mas não se limitando a:
 - SQL Server
 - Oracle Database
   
-### Proximos Passos:
+### Próximos Passos:
 ### - Criar um banco de dados
 
 ```sql
