@@ -21,7 +21,7 @@ Tabela funcionario:
 - id
 - salario
 - nome
-- setor(pode ser nulo)
+- idSetor(pode ser nulo)
 - dataAdm
 - dataDesligamento
 
