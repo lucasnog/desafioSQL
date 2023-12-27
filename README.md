@@ -105,7 +105,7 @@ Considerações para todas as questões abaixo:
 ```sql
 SELECT funcionario.nome, funcionario.salario as maiorSalario
 FROM funcionario
-WHERE dataDesligamento IS NULL AND salario = (SELECT MAX(funcionario.salario) 
+WHERE dataDesligamento IS NULL AND funcionario.salario = (SELECT MAX(funcionario.salario) 
                                               FROM funcionario);
 ```
 
