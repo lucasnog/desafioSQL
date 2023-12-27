@@ -138,11 +138,11 @@ WHERE data_desligamento IS NULL;
 - Para obter o custo por setor:
 
 ```sql
-SELECT funcionario.salario as mediaSalarialPorSetor, setor.setor
+SELECT AVG(funcionario.salario) as mediaSalarialPorSetor, setor.setor
 FROM funcionario
 JOIN setor ON setor.id = funcionario.id_setor
 WHERE data_desligamento IS NULL
-GROUP BY setor.setor;
+GROUP BY funcionario.id_setor;
 ```
 
 </details>
