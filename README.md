@@ -1,7 +1,7 @@
 
 
 ## DESAFIO SQL - MENTORIA +praTI
-id_setor
+
 ### Pré requisitos:
 Compatível com qualquer banco de dados SQL, incluindo, mas não se limitando a:
 - MySQL
