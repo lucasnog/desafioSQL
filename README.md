@@ -1,7 +1,7 @@
 
 
 ## DESAFIO SQL - MENTORIA +praTI
-
+id_setor
 ### Pré requisitos:
 Compatível com qualquer banco de dados SQL, incluindo, mas não se limitando a:
 - MySQL
@@ -21,19 +21,19 @@ Tabela funcionario:
 - id
 - salario
 - nome
-- idSetor(pode ser nulo)
-- dataAdm
-- dataDesligamento
+- id_setor(pode ser nulo)
+- data_adm
+- data_desligamento
 
 ```sql
 USE empresa1;
 CREATE TABLE funcionario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255),
-    salario INT,
-    idSetor INT NULL,
-    dataAdmissao DATE,
-    dataDesligamento DATE NULL
+    salario FLOAT,
+    id_setor INT NULL,
+    data_admissao DATE,
+    data_desligamento DATE NULL
 );
 ```
 
@@ -60,7 +60,7 @@ Considerações para todas as questões abaixo:
     ```sql
     USE empresa1;
 
-    INSERT INTO funcionario (nome, salario, idSetor, dataAdmissao, dataDesligamento) 
+    INSERT INTO funcionario (nome, salario, id_setor, data_admissao, data_desligamento) 
     VALUES
         ('Alice Silva', 5000, NULL, '2023-01-01', NULL),
         ('Bob Santos', 6000, 2, '2023-02-01', NULL),
@@ -100,12 +100,23 @@ Considerações para todas as questões abaixo:
 
 <details>
   <summary>Resolução 1</summary>
-  
+  <br>
 
+  - Usando o ORDER BY DESC e capturando o primeiro elemento:
+
+```sql
+SELECT funcionario.nome, funcionario.salario as maior_salario
+FROM funcionario
+WHERE funcionario.data_desligamento IS NULL
+ORDER BY funcionario.salario DESC
+LIMIT 1;
+```
+- Usando a função MAX:
+    
 ```sql
 SELECT funcionario.nome, funcionario.salario as maiorSalario
 FROM funcionario
-WHERE dataDesligamento IS NULL AND funcionario.salario = (SELECT MAX(funcionario.salario) 
+WHERE data_desligamento IS NULL AND funcionario.salario = (SELECT MAX(funcionario.salario) 
                                               FROM funcionario);
 ```
 
@@ -121,7 +132,7 @@ WHERE dataDesligamento IS NULL AND funcionario.salario = (SELECT MAX(funcionario
 ```sql
 SELECT COUNT(*) as funcionariosAtivos, SUM(salario) as folhaTotal
 FROM funcionario
-WHERE dataDesligamento IS NULL;
+WHERE data_desligamento IS NULL;
 ```
 
 - Para obter o custo por setor:
@@ -129,8 +140,8 @@ WHERE dataDesligamento IS NULL;
 ```sql
 SELECT funcionario.salario as mediaSalarialPorSetor, setor.setor
 FROM funcionario
-JOIN setor ON setor.id = funcionario.idSetor
-WHERE dataDesligamento IS NULL
+JOIN setor ON setor.id = funcionario.id_setor
+WHERE data_desligamento IS NULL
 GROUP BY setor.setor;
 ```
 
@@ -142,15 +153,16 @@ GROUP BY setor.setor;
   <summary>Resolução 3</summary>
   
 
+
 ```sql
 SELECT funcionario.nome, funcionario.salario, setor.setor
 FROM funcionario
-JOIN setor ON setor.id = funcionario.idSetor
-WHERE dataDesligamento IS NULL 
+JOIN setor ON setor.id = funcionario.id_setor
+WHERE data_desligamento IS NULL 
 AND setor.setor = 'ti' 
 AND funcionario.salario = (SELECT MAX(funcionario.salario) 
                 FROM funcionario
-                JOIN setor ON setor.id = funcionario.idSetor
+                JOIN setor ON setor.id = funcionario.id_setor
                 WHERE setor.setor = 'ti');
 ```
 
@@ -164,8 +176,8 @@ AND funcionario.salario = (SELECT MAX(funcionario.salario)
 ```sql
 SELECT setor.setor, AVG(salario) as mediaSalarial
 FROM funcionario
-JOIN setor ON setor.id = funcionario.idSetor
-WHERE dataDesligamento IS NULL 
+JOIN setor ON setor.id = funcionario.id_setor
+WHERE data_desligamento IS NULL 
 AND setor.setor = 'ti';
 ```
 </details>
@@ -176,16 +188,16 @@ AND setor.setor = 'ti';
   <summary>Resolução 5</summary>
   
 ```sql
-SELECT funcionario.nome, setor.setor, funcionario.salario, funcionario.dataAdmissao
+SELECT funcionario.nome, setor.setor, funcionario.salario, funcionario.data_admissao
 FROM funcionario
-JOIN setor ON setor.id = funcionario.idSetor
-WHERE dataDesligamento IS NULL 
+JOIN setor ON setor.id = funcionario.id_setor
+WHERE data_desligamento IS NULL 
 AND setor.setor = 'rh'
 AND funcionario.salario = (SELECT MIN(funcionario.salario)
                FROM funcionario
-               JOIN setor ON setor.id = funcionario.idSetor
+               JOIN setor ON setor.id = funcionario.id_setor
                WHERE setor.setor = 'rh'
-               AND funcionario.dataDesligamento IS NULL);
+               AND funcionario.data_desligamento IS NULL);
 ```
 </details>
 6- Me de o nome e o salario dos maiores salarios de funcionarios de cada setor.
@@ -197,12 +209,12 @@ AND funcionario.salario = (SELECT MIN(funcionario.salario)
 ```sql
 SELECT funcionario.nome, funcionario.salario, setor.setor
 FROM funcionario
-JOIN (SELECT idSetor, MAX(salario) AS maiorSalario
+JOIN (SELECT id_setor, MAX(salario) AS maiorSalario
 FROM funcionario
-WHERE dataDesligamento IS NULL
-GROUP BY idSetor) maiorPorCategoria ON funcionario.idSetor = maiorPorCategoria.idSetor 
+WHERE data_desligamento IS NULL
+GROUP BY id_setor) maiorPorCategoria ON funcionario.id_setor = maiorPorCategoria.id_setor 
 AND funcionario.salario = maiorPorCategoria.maiorSalario
-JOIN setor ON funcionario.idSetor = setor.id
+JOIN setor ON funcionario.id_setor = setor.id
 ```
 </details>
 
@@ -212,9 +224,9 @@ JOIN setor ON funcionario.idSetor = setor.id
   <summary>Resolução 7</summary>
   
 ```sql
-SELECT nome, salario, dataAdmissao
+SELECT nome, salario, data_admissao
 FROM funcionario
-WHERE dataDesligamento IS NULL AND funcionario.idSetor IS NULL;
+WHERE data_desligamento IS NULL AND funcionario.id_setor IS NULL;
 ```
 </details>
 
