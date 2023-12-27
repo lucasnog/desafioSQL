@@ -174,7 +174,7 @@ AND funcionario.salario = (SELECT MAX(funcionario.salario)
   
 
 ```sql
-SELECT setor.setor, AVG(salario) as mediaSalarial
+SELECT setor.setor, AVG(salario) as media_salario
 FROM funcionario
 JOIN setor ON setor.id = funcionario.id_setor
 WHERE data_desligamento IS NULL 
