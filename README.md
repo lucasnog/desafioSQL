@@ -244,14 +244,21 @@ WHERE YEAR(funcionario.data_admissao) = 2022;
 </details>
 
 9- Quais funcionarios foram afastados no ano de 2023?
+<details>
+  <summary>Resolução 9</summary>
+  
 
 ```sql
 SELECT COUNT(*) as total_funcionarios_desligados_2023
 FROM funcionario
 WHERE YEAR(funcionario.data_desligamento) = 2023;
 ```
+</details>
 
 10- Qual o funcionário mais antigo da empresa? e o que foi contratado mais recente?
+<details>
+  <summary>Resolução 10</summary>
+  
 
 - O funcionário mais antigo:
 
@@ -268,3 +275,4 @@ SELECT nome, funcionario.data_admissao
 FROM funcionario
 WHERE funcionario.data_admissao = (SELECT MAX(funcionario.data_admissao) FROM funcionario);
 ```
+</details>
