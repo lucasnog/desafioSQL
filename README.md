@@ -68,20 +68,20 @@ Considerações para todas as questões abaixo:
         ('Daniela Pereira', 8000, 4, '2023-04-01', NULL),
         ('Eduardo Costa', 9000, 5, '2023-05-01', '2023-08-31'),
         ('Fernanda Lima', 10000, 3, '2023-06-01', NULL),
-        ('Gustavo Souza', 5500, 2, '2023-07-01', NULL),
-        ('Helena Martins', 6600, 3, '2023-08-01', '2023-05-31'),
-        ('Igor Santos', 7700, NULL, '2023-09-01', NULL),
+        ('Gustavo Souza', 5500, 2, '2022-07-01', NULL),
+        ('Helena Martins', 6600, 3, '2022-08-01', '2023-05-31'),
+        ('Igor Santos', 7700, NULL, '2022-09-01', NULL),
         ('Juliana Lima', 8800, 5, '2023-10-01', NULL),
         ('Kai Oliveira', 9900, 1, '2023-11-01', NULL),
         ('Laura Costa', 13000, 2, '2023-12-01', NULL),
-        ('Marcos Oliveira', 6000, 1, '2024-01-01', NULL),
-        ('Natalia Santos', 7000, 4, '2024-02-01', NULL),
-        ('Otavio Costa', 8000, 5, '2024-03-01', NULL),
-        ('Patricia Lima', 9000, 1, '2024-04-01', NULL),
-        ('Quiteria Oliveira', 19000, 3, '2024-05-01', NULL),
-        ('Rafael Souza', 5500, 1, '2024-06-01', '2024-07-31'),
-        ('Sara Martins', 6600, 4, '2024-07-01', NULL),
-        ('Thiago Lima', 7700, 5, '2024-08-01', '2024-05-31');
+        ('Marcos Oliveira', 6000, 1, '2022-01-01', NULL),
+        ('Natalia Santos', 7000, 4, '2020-02-01', NULL),
+        ('Otavio Costa', 8000, 5, '2022-03-01', NULL),
+        ('Patricia Lima', 9000, 1, '2022-04-01', NULL),
+        ('Quiteria Oliveira', 19000, 3, '2020-05-01', NULL),
+        ('Rafael Souza', 5500, 1, '2022-06-01', '2023-07-31'),
+        ('Sara Martins', 6600, 4, '2022-07-01', NULL),
+        ('Thiago Lima', 7700, 5, '2020-01-01', '2023-05-31');
 
     INSERT INTO setor (setor)
     VALUES
@@ -231,4 +231,40 @@ WHERE data_desligamento IS NULL AND funcionario.id_setor IS NULL;
 </details>
 
 
+8- Quantos funcionarios entraram na empresa no ano de 2022?
 
+<details>
+  <summary>Resolução 8</summary>
+  
+```sql
+SELECT COUNT(*) as total_funcionarios_contratados_2022
+FROM funcionario
+WHERE YEAR(funcionario.data_admissao) = 2022;
+```
+</details>
+
+9- Quais funcionarios foram afastados no ano de 2023?
+
+```sql
+SELECT COUNT(*) as total_funcionarios_desligados_2023
+FROM funcionario
+WHERE YEAR(funcionario.data_desligamento) = 2023;
+```
+
+10- Qual o funcionário mais antigo da empresa? e o que foi contratado mais recente?
+
+- O funcionário mais antigo:
+
+```sql
+SELECT nome, funcionario.data_admissao
+FROM funcionario
+WHERE funcionario.data_admissao = (SELECT MIN(funcionario.data_admissao) FROM funcionario);
+```
+
+- O funcionário mais recente:
+
+```sql
+SELECT nome, funcionario.data_admissao
+FROM funcionario
+WHERE funcionario.data_admissao = (SELECT MAX(funcionario.data_admissao) FROM funcionario);
+```
